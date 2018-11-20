@@ -18,6 +18,11 @@
 
     <repositories>
         <repository>
+            <id>evolveum-public</id>
+            <name>Evolveum Public Releases</name>
+            <url>http://nexus.evolveum.com/nexus/content/groups/public</url>
+        </repository>
+        <repository>
             <id>evolveum-nexus-releases</id>
             <name>Internal Releases</name>
             <url>http://nexus.evolveum.com/nexus/content/repositories/releases/</url>
@@ -29,7 +34,13 @@
         </repository>
     </repositories>
 
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+    </properties>
+
     <modules>
         <module>dbcommon</module>
+        <module>connector-groovy</module>
     </modules>
 </project>
