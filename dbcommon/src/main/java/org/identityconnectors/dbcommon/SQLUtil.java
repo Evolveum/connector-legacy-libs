@@ -90,24 +90,17 @@ public final class SQLUtil {
             final String user, final GuardedString password, final Hashtable<?, ?> env) {
         try {
             javax.naming.InitialContext ic = getInitialContext(env);
-            final DataSource ds = (DataSource) ic.lookup(datasourceName);
-            final Connection[] ret = new Connection[1];
-            password.access(new GuardedString.Accessor() {
-                public void access(char[] clearChars) {
-                    try {
-                        ret[0] = ds.getConnection(user, new String(clearChars));
-                    } catch (SQLException e) {
-                        // checked exception are not allowed in the access
-                        // method
-                        // Lets use the exception softening pattern
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
-            return ret[0];
-        } catch (Exception e) {
-            throw ConnectorException.wrap(e);
-        }
+			final DataSource ds = (DataSource) ic.lookup(datasourceName);
+
+			String[] pwd = new String[1];
+			if (password != null) {
+				password.access(clearChars -> pwd[0] = clearChars != null ? new String(clearChars) : null);
+			}
+
+			return ds.getConnection(user, pwd[0]);
+		} catch (Exception e) {
+			throw ConnectorException.wrap(e);
+		}
     }
 
     /**
@@ -171,7 +164,7 @@ public final class SQLUtil {
     public static Connection getDriverMangerConnection(final String driver, final String url,
             final String login, final GuardedString password) {
         // create the connection base on the configuration..
-        final Connection[] ret = new Connection[1];
+        Connection ret;
         try {
             // load the driver class..
             Class.forName(driver);
@@ -179,28 +172,22 @@ public final class SQLUtil {
 
             // check if there is authentication involved.
             if (StringUtil.isNotBlank(login)) {
-                password.access(new GuardedString.Accessor() {
-                    public void access(char[] clearChars) {
-                        try {
-                            ret[0] =
-                                    DriverManager.getConnection(url, login, new String(clearChars));
-                        } catch (SQLException e) {
-                            // checked exception are not allowed in the access
-                            // method
-                            // Lets use the exception softening pattern
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
+				String[] pwd = new String[1];
+				if (password != null) {
+					password.access(clearChars -> pwd[0] = clearChars != null ? new String(clearChars) : null);
+				}
+
+				ret = DriverManager.getConnection(url, login, pwd[0]);
             } else {
-                ret[0] = DriverManager.getConnection(url);
+                ret = DriverManager.getConnection(url);
             }
             // turn off auto-commit
-            ret[0].setAutoCommit(false);
+            ret.setAutoCommit(false);
+
+            return ret;
         } catch (Exception e) {
             throw ConnectorException.wrap(e);
         }
-        return ret[0];
     }
 
     /**
@@ -951,9 +938,9 @@ public final class SQLUtil {
             throw e;
         }
     }
-    
+
     public static Object getCurrentJdbcTime(Integer columnType){
-    
+
     	Object currentInMilis = null;
     	switch(columnType){
     	case Types.DATE:
