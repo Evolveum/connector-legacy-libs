@@ -122,10 +122,11 @@ public class ScriptedSQLConfiguration extends ScriptedConfiguration {
             if (getUsername() == null) {
                 throw new IllegalArgumentException(getMessage("MSG_USER_BLANK"));
             }
-            // check that there is a pwd to query..
-            if (getPassword() == null) {
-                throw new IllegalArgumentException(getMessage("MSG_PASSWORD_BLANK"));
-            }
+            // check that there is a pwd to query, password can be null for example for H2 default user
+            log.warn("Password is null")
+//            if (getPassword() == null) {
+//                throw new IllegalArgumentException(getMessage("MSG_PASSWORD_BLANK"));
+//            }
 
             // make sure the jdbcDriver is in the class path..
             if (StringUtil.isBlank(getDriverClassName())) {
