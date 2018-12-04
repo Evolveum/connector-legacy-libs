@@ -37,10 +37,22 @@
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+
+        <connid.version>1.5.0.0</connid.version>
     </properties>
 
     <modules>
         <module>dbcommon</module>
         <module>connector-groovy</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.tirasa.connid</groupId>
+                <artifactId>connector-framework</artifactId>
+                <version>${connid.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

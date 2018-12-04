@@ -33,6 +33,8 @@ import org.identityconnectors.framework.common.objects.ConnectorObjectBuilder
 import org.identityconnectors.framework.common.objects.ObjectClass
 import org.identityconnectors.framework.common.objects.Uid
 
+import java.time.LocalDateTime
+
 /**
  * A ConnectorObjectDelegate ...
  *
@@ -165,6 +167,10 @@ class ConnectorObjectDelegate extends AbstractICFBuilder<ConnectorObjectBuilder>
     }
 
     void attribute(String name, Map... args) {
+        addConnectorAttribute(name, args)
+    }
+
+    void attribute(String name, LocalDateTime... args) {
         addConnectorAttribute(name, args)
     }
     
