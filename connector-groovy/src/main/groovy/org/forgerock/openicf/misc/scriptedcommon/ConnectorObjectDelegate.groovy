@@ -173,7 +173,12 @@ class ConnectorObjectDelegate extends AbstractICFBuilder<ConnectorObjectBuilder>
     void attribute(String name, ZonedDateTime... args) {
         addConnectorAttribute(name, args)
     }
-    
+
+    //we need method with primitive arg for byte array for binary attribute to work
+    private void addConnectorAttribute(String name, byte[] args) {
+        ((ConnectorObjectBuilder) builder).addAttribute(name, [args])
+    }
+
     private void addConnectorAttribute(String name, Object... args) {
         if (null != args) {
             ((ConnectorObjectBuilder) builder).addAttribute(name, args.toList())
