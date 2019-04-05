@@ -62,7 +62,7 @@ import org.identityconnectors.framework.spi.operations.ScriptOnResourceOp
 import org.identityconnectors.framework.spi.operations.SearchOp
 import org.identityconnectors.framework.spi.operations.SyncOp
 import org.identityconnectors.framework.spi.operations.TestOp
-import org.identityconnectors.framework.spi.operations.UpdateOp
+import org.identityconnectors.framework.spi.operations.UpdateAttributeValuesOp
 
 /**
  * Main implementation of the Scripted Common code.
@@ -72,7 +72,7 @@ import org.identityconnectors.framework.spi.operations.UpdateOp
  */
 public class ScriptedConnectorBase<C extends ScriptedConfiguration> implements AuthenticateOp, CreateOp, DeleteOp, ResolveUsernameOp,
         SchemaOp, ScriptOnConnectorOp, ScriptOnResourceOp, SearchOp<Filter>, SyncOp, TestOp,
-        UpdateOp {
+        UpdateAttributeValuesOp {
 
     public static final String USERNAME = "username"
     public static final String PASSWORD = "password"
