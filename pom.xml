@@ -56,4 +56,14 @@
         <module>dbcommon</module>
         <module>connector-groovy</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.evolveum.polygon</groupId>
+                <artifactId>dbcommon</artifactId>
+                <version>2.1-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

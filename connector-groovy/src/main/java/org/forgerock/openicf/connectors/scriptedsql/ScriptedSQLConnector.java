@@ -25,37 +25,65 @@
 package org.forgerock.openicf.connectors.scriptedsql;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import org.forgerock.openicf.misc.scriptedcommon.ScriptedConnectorBase;
+import org.identityconnectors.common.logging.Log;
+import org.identityconnectors.framework.common.exceptions.ConnectionBrokenException;
+import org.identityconnectors.framework.spi.Configuration;
 import org.identityconnectors.framework.spi.Connector;
 import org.identityconnectors.framework.spi.ConnectorClass;
 
 import groovy.lang.Binding;
 import groovy.lang.Closure;
+import org.identityconnectors.framework.spi.PoolableConnector;
 
 /**
  * Main implementation of the ScriptedSQL Connector.
  *
  * @author Gael Allioux <gael.allioux@forgerock.com>
+ * @author Martin Lizner <martin.lizner@ami.cz>
+ *
  */
 @ConnectorClass(displayNameKey = "groovy.sql.connector.display",
         configurationClass = ScriptedSQLConfiguration.class, messageCatalogPaths = {
             "org/forgerock/openicf/connectors/groovy/Messages",
             "org/forgerock/openicf/connectors/scriptedsql/Messages" })
-public class ScriptedSQLConnector extends ScriptedConnectorBase<ScriptedSQLConfiguration> implements
-        Connector {
+public class ScriptedSQLConnector extends ScriptedConnectorBase<ScriptedSQLConfiguration> implements PoolableConnector {
+
+    private ScriptedSQLConnection connection;
+    static Log log = Log.getLog(ScriptedSQLConnector.class);
 
     protected Object evaluateScript(String scriptName, Binding arguments,
-            Closure<Object> scriptEvaluator) throws Exception {
-        final Connection c =
-                ((ScriptedSQLConfiguration) getScriptedConfiguration()).getDataSource()
-                        .getConnection();
-        try {
-            arguments.setVariable(CONNECTION, c);
+            Closure<Object> scriptEvaluator) {
+
+            arguments.setVariable(CONNECTION, connection.getConnectionHandler());
             return scriptEvaluator.call(scriptName, arguments);
-        } finally {
-            // Put back the connection to pool
-            c.close();
+    }
+
+    @Override
+    public void init(final Configuration configuration) {
+        log.ok("Creating new connector object for URL: {0}", ((ScriptedSQLConfiguration) configuration).getJdbcUrlTemplate());
+        this.connection = new ScriptedSQLConnection((ScriptedSQLConfiguration) configuration);
+        super.init(configuration);
+    }
+
+    @Override
+    public void dispose() {
+        log.ok("Disposing connector object");
+
+        if (connection != null) {
+            connection.dispose();
+            connection = null;
         }
+
+        super.dispose();
+    }
+
+    @Override
+    public void checkAlive() {
+        log.ok("Testing connector object");
+
+        connection.test();
     }
 }
