@@ -261,6 +261,20 @@ public class ScriptedSQLConfiguration extends ScriptedConfiguration {
         this.autoCommit = autoCommit;
     }
 
+    /*
+    The default TransactionIsolation state of connections. Use respective integer value 0 = TRANSACTION_NONE, 1 = TRANSACTION_READ_UNCOMMITTED, 2 = TRANSACTION_READ_COMMITTED, 4 = TRANSACTION_REPEATABLE_READ, 8 = TRANSACTION_SERIALIZABLE
+    */
+
+    private String defaultTransactionIsolation = EMPTY_STR;
+
+    String getDefaultTransactionIsolation() {
+        return defaultTransactionIsolation
+    }
+
+    void setDefaultTransactionIsolation(String defaultTransactionIsolation) {
+        this.defaultTransactionIsolation = defaultTransactionIsolation
+    }
+
 /**
  * Attempt to validate the arguments added to the Configuration.
  *

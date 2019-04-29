@@ -104,6 +104,12 @@ public class ScriptedSQLConnection {
         } catch (SQLException expected) {
             log.error(expected, "setAutoCommit() exception");
         }
+
+        //Set transaction isolation
+        if (config.getDefaultTransactionIsolation() != ScriptedSQLConfiguration.EMPTY_STR) {
+            connection.setTransactionIsolation(config.getDefaultTransactionIsolation() as int)
+        }
+
         return connection;
     }
 
