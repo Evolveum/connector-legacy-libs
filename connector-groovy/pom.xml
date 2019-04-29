@@ -17,7 +17,7 @@
 
     <properties>
         <gmaven.version>1.5</gmaven.version>
-        <groovy.version>2.4.14</groovy.version>
+        <groovy.version>2.4.15</groovy.version>
         <forgerock.rest.version>2.4.0</forgerock.rest.version>
     </properties>
 
