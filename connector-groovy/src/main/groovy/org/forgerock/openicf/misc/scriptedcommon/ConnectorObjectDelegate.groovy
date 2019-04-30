@@ -85,7 +85,7 @@ class ConnectorObjectDelegate extends AbstractICFBuilder<ConnectorObjectBuilder>
             ((ConnectorObjectBuilder) builder).addAttribute(AttributeBuilder.build(name))
         }
     }
-    
+		
     void attribute(String name, String... args) {
         addConnectorAttribute(name, args)
     }
@@ -173,18 +173,24 @@ class ConnectorObjectDelegate extends AbstractICFBuilder<ConnectorObjectBuilder>
     void attribute(String name, ZonedDateTime... args) {
         addConnectorAttribute(name, args)
     }
+	
+	void addConnectorAttribute(String name, args) {
+		// addConnectorAttributeTyped(name, null) is ambigous, this method tries to resolve
+		// this ambiguity
+		if(args != null) {
+			addConnectorAttributeTyped(name, args)
+		} else {
+			((ConnectorObjectBuilder) builder).addAttribute(AttributeBuilder.build(name))
+		}
+	}
 
     //we need method with primitive arg for byte array for binary attribute to work
-    private void addConnectorAttribute(String name, byte[] args) {
+    private void addConnectorAttributeTyped(String name, byte[] args) {
         ((ConnectorObjectBuilder) builder).addAttribute(name, [args])
     }
 
-    private void addConnectorAttribute(String name, Object... args) {
-        if (null != args) {
-            ((ConnectorObjectBuilder) builder).addAttribute(name, args.toList())
-        } else {
-            ((ConnectorObjectBuilder) builder).addAttribute(AttributeBuilder.build(name))
-        }
+    private void addConnectorAttributeTyped(String name, Object... args) {
+        ((ConnectorObjectBuilder) builder).addAttribute(name, args.toList())
     }
 
     void attribute(String name) {
