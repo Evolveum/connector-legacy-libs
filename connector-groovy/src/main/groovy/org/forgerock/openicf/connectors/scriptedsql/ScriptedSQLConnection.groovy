@@ -117,7 +117,7 @@ public class ScriptedSQLConnection {
      * Release internal resources.
      */
     public void dispose() {
-        SQLUtil.closeQuietly(sqlConn);
+        SQLUtil.closeQuietly((Connection) sqlConn);
     }
 
     /**
