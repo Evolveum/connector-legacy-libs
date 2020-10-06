@@ -706,8 +706,8 @@ public class ScriptedConnectorBase<C extends ScriptedConfiguration> implements A
                 arguments.setVariable(ID, AttributeUtil.getSingleValue(attribute))
             } else if ((attribute.is(OperationalAttributes.PASSWORD_NAME) ||
                     attribute.is(OperationalAttributes.CURRENT_PASSWORD_NAME)) && method.equals(OperationType.UPDATE)) {
-                attributesMap.put(attribute.getName(),
-                        getGuardedStringValue(AttributeUtil.getGuardedStringValue(attribute)));
+                attributesMap.put(attribute.getName(), AttributeUtil.getGuardedStringValue(attribute));
+//                        getGuardedStringValue(AttributeUtil.getGuardedStringValue(attribute)));
             } else if (OperationalAttributes.isOperationalAttribute(attribute) && method.equals(OperationType.UPDATE)) {
                 attributesMap.put(attribute.getName(), attribute.getValue());
             } else {
