@@ -66,6 +66,10 @@ class ConnectorObjectDelegate extends AbstractICFBuilder<ConnectorObjectBuilder>
         ((ConnectorObjectBuilder) builder).setName(id);
     }
 
+    void name(String name) {
+        id(name);
+    }
+
     void objectClass(String objectClass) {
         ((ConnectorObjectBuilder) builder).setObjectClass(new ObjectClass(objectClass));
     }
