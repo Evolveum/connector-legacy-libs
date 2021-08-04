@@ -13,7 +13,7 @@
 
     <groupId>com.evolveum.polygon</groupId>
     <artifactId>connector-legacy-libs</artifactId>
-    <version>2.3-SNAPSHOT</version>
+    <version>2.3</version>
     <packaging>pom</packaging>
 
     <repositories>
@@ -62,7 +62,7 @@
             <dependency>
                 <groupId>com.evolveum.polygon</groupId>
                 <artifactId>dbcommon</artifactId>
-                <version>2.3-SNAPSHOT</version>
+                <version>2.3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
