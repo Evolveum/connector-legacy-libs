@@ -32,10 +32,8 @@ import javax.sql.DataSource;
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 
 import static org.testng.AssertJUnit.*;
 
@@ -512,6 +510,7 @@ public class SQLUtilTests {
         assertEquals(String.class, SQLUtil.getSQLAttributeType(Types.CHAR));
         assertEquals(String.class, SQLUtil.getSQLAttributeType(Types.CLOB));
         assertEquals(String.class, SQLUtil.getSQLAttributeType(Types.VARCHAR));
+        assertEquals(UUID.class, SQLUtil.getSQLAttributeType(Types.OTHER,"uuid"));
     }
 
     /**

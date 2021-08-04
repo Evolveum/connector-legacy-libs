@@ -34,6 +34,26 @@ public final class SQLParam {
     private final String name;
     private final Object value;
     private final int sqlType;
+    private String sqlTypeName;
+
+    /**
+     * The Sql param is a pair of value and its sqlType
+     *
+     * @param name        name of the attribute
+     * @param value       value
+     * @param sqlType     sql type
+     * @param sqlTypeName sql type Name
+     */
+    public SQLParam(String name, Object value, int sqlType, String sqlTypeName) {
+        if (name == null || name.length() == 0) {
+            //TODO localize this
+            throw new IllegalArgumentException("SQL param name should be not null");
+        }
+        this.name = name;
+        this.value = value;
+        this.sqlType = sqlType;
+        this.sqlTypeName = sqlTypeName;
+    }
 
     /**
      * The Sql param is a pair of value and its sqlType.
@@ -53,6 +73,7 @@ public final class SQLParam {
         this.name = name;
         this.value = value;
         this.sqlType = sqlType;
+        this.sqlTypeName = null;
     }
 
     /**
@@ -71,6 +92,7 @@ public final class SQLParam {
         this.name = name;
         this.value = value;
         sqlType = Types.NULL;
+        this.sqlTypeName = null;
     }
 
     /**
@@ -100,6 +122,16 @@ public final class SQLParam {
         return sqlType;
     }
 
+    /**
+     * Sql TypeName
+     *
+     * @return a typeName
+     */
+    public String getSqlTypeName() {
+        return sqlTypeName;
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -111,6 +143,7 @@ public final class SQLParam {
         SQLParam other = (SQLParam) obj;
         return (name == other.name || (name != null && name.equals(other.name)))
                 && (value == other.value || (value != null && value.equals(other.value)))
+                && (sqlTypeName == other.sqlTypeName || (sqlTypeName != null && sqlTypeName.equals(other.sqlTypeName)))
                 && sqlType == other.sqlType;
     }
 
@@ -119,6 +152,7 @@ public final class SQLParam {
         int hash = 7;
         hash = 31 * hash + (null == name ? 0 : name.hashCode());
         hash = 31 * hash + (null == value ? 0 : value.hashCode());
+        hash = 31 * hash + (null == sqlTypeName ? 0 : sqlTypeName.hashCode());
         hash = 31 * hash + sqlType;
         return hash;
     }
@@ -128,6 +162,10 @@ public final class SQLParam {
         StringBuilder ret = new StringBuilder();
         if (getName() != null) {
             ret.append(getName());
+            ret.append("=");
+        }
+        if (getSqlTypeName() != null) {
+            ret.append(getSqlTypeName());
             ret.append("=");
         }
         ret.append("\"" + getValue() + "\"");
