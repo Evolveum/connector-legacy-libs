@@ -49,6 +49,10 @@ class ObjectClassDelegate extends AbstractICFBuilder<SchemaBuilder> {
         infoBuilder.setType(type);
     }
 
+    void associated() {
+        infoBuilder.setAssociated(true)
+    }
+
     public void container() {
         infoBuilder.setContainer(true)
     }

@@ -50,6 +50,8 @@ class AttributeInfoDelegate extends AbstractICFBuilder<ObjectClassInfoBuilder> {
                 infoBuilder.setType(it as Class)
             } else if (it instanceof AttributeInfo.Flags) {
                 flags.add(it as AttributeInfo.Flags)
+            } else if (it instanceof String) {
+                infoBuilder.setSubtype(it as String)
             }
         }
         infoBuilder.setFlags(flags);
