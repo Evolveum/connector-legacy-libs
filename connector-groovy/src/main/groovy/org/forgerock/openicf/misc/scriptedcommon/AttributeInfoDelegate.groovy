@@ -51,7 +51,14 @@ class AttributeInfoDelegate extends AbstractICFBuilder<ObjectClassInfoBuilder> {
             } else if (it instanceof AttributeInfo.Flags) {
                 flags.add(it as AttributeInfo.Flags)
             } else if (it instanceof String) {
-                infoBuilder.setSubtype(it as String)
+                def string = it as String
+                if (string?.startsWith('->')) { // TODO any better way to distinguish?
+                    infoBuilder.setReferencedObjectClassName(string.substring(2).trim())
+                } else {
+                    infoBuilder.setSubtype(it as String)
+                }
+            } else if (it instanceof AttributeInfo.RoleInReference) {
+                infoBuilder.setRoleInReference(it.toString())
             }
         }
         infoBuilder.setFlags(flags);
