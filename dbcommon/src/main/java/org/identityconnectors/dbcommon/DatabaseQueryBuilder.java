@@ -254,7 +254,7 @@ public class DatabaseQueryBuilder {
          * @return a name
          */
         public String getColumnName() {
-            return this.first;
+            return getKey();
         }
 
         /**
@@ -263,7 +263,7 @@ public class DatabaseQueryBuilder {
          * @return a boolean true/false as ascendent/descendent
          */
         public boolean isAscendent() {
-            return this.second;
+            return getValue();
         }
 
     }
